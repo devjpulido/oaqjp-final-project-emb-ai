@@ -1,15 +1,23 @@
-from flask import Flask, request, jsonify, render_template
+"""Flask web server for Watson NLP emotion detection."""
+
+from flask import Flask, request, render_template
 from EmotionDetection import emotion_detector
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+    """Render the homepage with the input form."""
     return render_template('index.html')
 
 @app.route('/emotionDetector', methods=['GET'])
 def detect_emotion():
-
+    """
+    Handle GET request for emotion detection.
+    Extracts the user input from query parameters, processes it using
+    the Watson NLP emotion detector, and returns a formatted string response.
+    Handles blank inputs by returning an appropriate error message.
+    """
     text_to_analyze = request.args.get("textToAnalyze")
     response = emotion_detector(text_to_analyze)
 
